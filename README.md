@@ -26,7 +26,7 @@ The project contains three modelling levels:
 - src/estimation.py — classical parameter estimation
 - src/neural_models.py — data-driven and physics-informed MLPs
 - scripts/generate_data.py — reproducible synthetic dataset generation
-- scripts/run_analysis.py — parameter estimation and neural-model comparison
+- scripts/run_analysis.py — parameter estimation and neural-model comparison\n- scripts/run_robustness_study.py — repeated parameter-recovery experiments across noise levels
 - docs/ — physical model, estimation method and PINN formulation
 - tests/ — numerical and estimation tests
 
