@@ -1,0 +1,4 @@
+method,training_rmse_m,validation_rmse_m,damping_estimate,stiffness_estimate
+classical nonlinear least squares,0.02919632658801655,,0.2004406831787192,4.00018830903721
+data-driven neural network,0.05750564858317375,0.056238505989313126,,
+physics-informed neural network,0.05085079371929169,0.05313509702682495,0.21582350134849548,3.984454393386841
