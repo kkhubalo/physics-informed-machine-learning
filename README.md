@@ -1,67 +1,81 @@
 # Physics-Informed Machine Learning for Dynamical Systems
 
-A computational physics project exploring how physical laws and machine-learning methods can work together to identify and model dynamical systems from data.
+A reproducible computational-physics project investigating how physical laws and machine-learning methods can work together to identify and model dynamical systems from data.
 
 ## Research question
 
-Can we recover the physical parameters of a dynamical system from noisy observations, and how do physics-based estimation methods compare with data-driven approaches?
+Can we recover the parameters and trajectory of a dynamical system from noisy observations, and what is gained by incorporating the governing physical equation into a machine-learning model?
 
-## Case study 1: Damped harmonic oscillator
+## Case study: damped harmonic oscillator
 
-We begin with the forced damped oscillator
+We study the unforced damped oscillator:
 
-\[
-m\ddot{x}(t)+c\dot{x}(t)+kx(t)=F(t),
-\]
+\[m\\ddot{x}(t)+c\\dot{x}(t)+kx(t)=0.\]
 
-where \(m\) is mass, \(c\) is the damping coefficient, and \(k\) is the spring constant.
+The project contains three modelling levels:
 
-The initial study will:
-1. Derive and implement the governing equations.
-2. Simulate the system numerically.
-3. Generate synthetic observations with controllable measurement noise.
-4. Estimate unknown parameters from the observations.
-5. Compare parameter estimates with the known ground truth.
-6. Evaluate robustness as noise levels and sampling conditions change.
+1. **Forward numerical simulation:** solve the governing ODE and generate reproducible synthetic observations.
+2. **Classical parameter estimation:** recover damping and stiffness from displacement observations using nonlinear least squares.
+3. **Scientific machine learning:** compare a data-only neural trajectory model with a physics-informed neural network (PINN) that penalises violations of the ODE.
 
-## Project structure
+> **Identifiability:** For unforced motion, displacement data identify c/m and k/m. They cannot determine all three absolute coefficients independently. The benchmark therefore fixes mass and estimates damping and stiffness. See docs/parameter_estimation.md.
 
-```text
-.
-├── data/                  # Generated datasets (not committed by default)
-├── docs/                  # Theory, methods and experiment notes
-├── scripts/               # Reproducible experiment entry points
-├── src/
-│   └── oscillator.py      # Physical model and numerical simulation
-├── tests/                 # Model and numerical tests
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
+## Repository structure
 
-## Getting started
+- src/oscillator.py — physical model and numerical simulation
+- src/estimation.py — classical parameter estimation
+- src/neural_models.py — data-driven and physics-informed MLPs
+- scripts/generate_data.py — reproducible synthetic dataset generation
+- scripts/run_analysis.py — parameter estimation and neural-model comparison
+- docs/ — physical model, estimation method and PINN formulation
+- tests/ — numerical and estimation tests
+
+## Setup
 
 Python 3.10 or newer is recommended.
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate       # Windows: .venv\Scripts\activate
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+python -m pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+## Reproduce the experiments
+
+Generate the synthetic observations and initial plot:
+
+```bash
 python scripts/generate_data.py
 ```
 
-## Current status
+Run classical parameter estimation and compare the neural models:
 
-**Stage 1 — Physical model and synthetic data.** The first implementation focuses on a transparent numerical baseline. Parameter estimation and machine-learning comparisons will be added as subsequent, separately documented stages.
+```bash
+python scripts/run_analysis.py
+```
 
-## Research standards
+The analysis writes results/model_comparison.csv and figures/generated/model_comparison.png. Both neural models use a deterministic 80/20 index split and fixed random seed.
 
-- Keep physical assumptions and units explicit.
+Run tests:
+
+```bash
+python -m pytest -q
+```
+
+## Dependencies
+
+NumPy, SciPy, pandas, Matplotlib, Pytest and PyTorch.
+
+## Research standards and limitations
+
+- State physical assumptions and SI units explicitly.
 - Fix random seeds for reproducibility.
-- Separate training, validation and test data when learning models are introduced.
-- Compare against interpretable physical and numerical baselines.
-- Report parameter errors and uncertainty, not only visual fit.
-- Record limitations and failed experiments.
+- Compare against an interpretable numerical baseline.
+- Report parameter errors and held-out prediction errors, not only plots.
+- Treat synthetic-data results as a controlled benchmark, not experimental evidence.
+- Do not claim a PINN is better unless measured results support that conclusion.
 
 ## Author
 
