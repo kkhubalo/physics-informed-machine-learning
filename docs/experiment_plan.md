@@ -16,9 +16,12 @@ How accurately can the parameters and trajectory of a dynamical system be inferr
 - Fix mass and initial conditions to known benchmark values.
 - Compare recovered coefficients with ground truth.
 
-## Stage 3 — Noise and sampling study (next extension)
+## Stage 3 — Noise robustness (implemented)
 
-Repeat estimation across multiple noise levels, observation durations and sampling densities. Report bias, variance and parameter error over repeated random seeds.
+- Repeat estimation over four measurement-noise levels.
+- Use ten independent random seeds at each level.
+- Report mean estimates, standard deviations and absolute errors.
+- Generate a plot showing parameter recovery as noise increases.
 
 ## Stage 4 — Machine-learning comparison (baseline implementation)
 
@@ -26,14 +29,10 @@ Repeat estimation across multiple noise levels, observation durations and sampli
 - Fit a physics-informed neural trajectory model using automatic differentiation and the ODE residual.
 - Compare held-out displacement RMSE and recovered physical coefficients.
 
-## Evaluation
+## Next scientific extensions
 
-- Parameter relative error.
-- Displacement prediction RMSE on held-out time points.
-- Robustness to measurement noise.
-- Sensitivity to sampling density, loss weight and initialisation.
-- Reproducibility across random seeds.
+Vary observation duration and sampling density; perform a systematic sweep of the physics-loss weight; test sensitivity to initial parameter guesses; compare against measured data if a suitable dataset becomes available.
 
-## Reporting
+## Evaluation and reporting
 
-Record assumptions, parameter values, random seed, software versions, evaluation split and limitations. This case study uses synthetic data only; it is not experimental evidence. In free decay, displacement alone identifies c/m and k/m, so the benchmark fixes mass.
+Report parameter relative error, held-out displacement RMSE, robustness to measurement noise and reproducibility across random seeds. Record assumptions, parameter values, software versions and evaluation splits. This case study uses synthetic data only; it is not experimental evidence. In free decay, displacement alone identifies c/m and k/m, so the benchmark fixes mass.
