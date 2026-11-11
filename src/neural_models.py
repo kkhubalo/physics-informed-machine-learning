@@ -62,6 +62,7 @@ def train_physics_informed_model(times: np.ndarray, displacement: np.ndarray, *,
     torch.manual_seed(seed)
     t, x = _tensor(times), _tensor(displacement)
     train, validation = _split(len(t))
+    train[0] = True  # Include the known initial displacement in training.
     model = TrajectoryNetwork(float(times[0]), float(times[-1]))
     log_damping = nn.Parameter(torch.tensor(float(np.log(initial_damping))))
     log_stiffness = nn.Parameter(torch.tensor(float(np.log(initial_stiffness))))
