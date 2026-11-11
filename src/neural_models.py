@@ -29,6 +29,7 @@ def _tensor(values: np.ndarray) -> torch.Tensor:
 
 def _split(length: int):
     train = torch.arange(length) % 5 != 0
+    train[0] = True  # Keep the known initial displacement in the training set.
     return train, ~train
 
 def train_data_driven_model(times: np.ndarray, displacement: np.ndarray, *,
