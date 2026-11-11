@@ -79,6 +79,6 @@ NumPy, SciPy, pandas, Matplotlib, Pytest and PyTorch.
 
 ## Author
 
-Karabo Khubalo — MSc Physics, University of Modena and Reggio Emilia; Erasmus exchange at Radboud University.
+Karabo Kelvin Khubalo — MSc Physics, University of Modena and Reggio Emilia; Erasmus Exchange,Radboud University.
 
 Research interests: computational physics, scientific machine learning, numerical modelling and semiconductor/quantum systems.
