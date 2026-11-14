@@ -68,6 +68,42 @@ python -m pytest -q
 
 NumPy, SciPy, pandas, Matplotlib, Pytest and PyTorch.
 
+
+## Current results
+
+The current benchmark uses a damped harmonic oscillator with fixed mass
+\(m=1.0\,\mathrm{kg}\), reference damping \(c=0.20\,\mathrm{kg/s}\),
+reference stiffness \(k=4.00\,\mathrm{kg/s^2}\), and 3% displacement
+observation noise (standard deviation 0.03 m, seed 42).
+
+| Method | Damping estimate (kg/s) | Relative damping error | Stiffness estimate (kg/s²) | Relative stiffness error |
+|---|---:|---:|---:|---:|
+| Classical nonlinear least squares | 0.20044 | 0.22% | 4.00019 | 0.0047% |
+| Physics-informed neural network | 0.21582 | 7.91% | 3.98445 | 0.39% |
+
+For the neural models, the PINN achieved a validation RMSE of 0.05314 m,
+compared with 0.05624 m for the data-driven neural network (about 5.5% lower
+validation RMSE in this run). The classical fit had a training RMSE of
+0.02920 m; this is a fit to the observed data and is not directly comparable
+to the neural models' held-out validation RMSE.
+
+### Classical-estimator noise robustness
+
+The robustness script performs 10 repeated classical nonlinear least-squares
+fits at each observation-noise level. Mean absolute parameter errors were:
+
+| Noise standard deviation (m) | Mean absolute damping error (kg/s) | Mean absolute stiffness error (kg/s²) |
+|---:|---:|---:|
+| 0.00 | approximately 0 | approximately 0 |
+| 0.01 | 0.000301 | 0.000465 |
+| 0.03 | 0.000905 | 0.001393 |
+| 0.06 | 0.001810 | 0.002778 |
+
+**Scope note:** the repeated noise-robustness experiment currently evaluates
+the classical estimator only. A repeated PINN-versus-NLS robustness
+comparison across noise levels remains future work. These are synthetic-data
+results under the stated model assumptions, not experimental validation.
+
 ## Research standards and limitations
 
 - State physical assumptions and SI units explicitly.
